@@ -422,8 +422,8 @@
 <p>下图中所列出的是<code>users控制器</code>的全部方法，而这些动作代表了Rails对REST架构的实现。</p>
 <p>值得注意的是，<code>update</code>和<code>show</code>两个方法都映射到了同一个url上，但他们的http请求方法不同。</p>
 <img src="/Ruby%20on%20Rails学习手记（一）/1_2_RESTful.PNG" alt="users controller的全部方法" title="users controller的全部方法">
-<h2 id="REpresentational-State-Transfer-REST"><a href="#REpresentational-State-Transfer-REST" class="headerlink" title="REpresentational State Transfer (REST)"></a>REpresentational State Transfer (REST)</h2><p>在Rails中，使用RESTful开发代表着大多数组件（例如本章要构建的用户信息和用户的推文）被模块化了，变成了资源（resources），也就意味着他们可以对应到数据库中的CURD方法和HTTP的请求方法。</p>
-<p>作为Rails开发者，RESTful的开发会帮助你决定要编辑和修改那些<code>controllers</code></p>
+<h2 id="REpresentational-State-Transfer-REST"><a href="#REpresentational-State-Transfer-REST" class="headerlink" title="REpresentational State Transfer (REST)"></a>REpresentational State Transfer (REST)</h2><p>在Rails中，使用RESTful开发代表着大多数组件（例如本章要构建的用户信息和用户的推文）被模块化了，变成了资源（resources），也就意味着他们可以对应到数据库中的CRUD方法和HTTP的请求方法。</p>
+<p>作为Rails开发者，RESTful的开发会帮助你决定要编辑和修改哪些<code>controllers</code></p>
 <h2 id="为网站添加一些其他方法"><a href="#为网站添加一些其他方法" class="headerlink" title="为网站添加一些其他方法"></a>为网站添加一些其他方法</h2><ul>
 <li><h3 id="字符限制"><a href="#字符限制" class="headerlink" title="字符限制"></a>字符限制</h3></li>
 </ul>
@@ -436,14 +436,10 @@
 <li><h3 id="统计用户的推文数量"><a href="#统计用户的推文数量" class="headerlink" title="统计用户的推文数量"></a>统计用户的推文数量</h3></li>
 </ul>
 <p>Rails的一个强大特性就是有关联不同数据<code>模型（Model）</code>的能力。现在通过添加下列代码，实现<code>user</code>和<code>micropost</code>的关联。</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">app/models/user.rb</div><div class="line">=============================</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> &lt; ApplicationRecord </span></div><div class="line">	has_many <span class="symbol">:microposts</span></div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line">app/models/micropost.rb</div><div class="line">=============================</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Micropost</span> &lt; ApplicationRecord</span></div><div class="line">  belongs_to <span class="symbol">:user</span></div><div class="line">  validates <span class="symbol">:content</span>, <span class="symbol">length:</span> &#123; <span class="symbol">maximum:</span> <span class="number">140</span> &#125;</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">app/models/user.rb</div><div class="line">=============================</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> &lt; ApplicationRecord </span></div><div class="line">	has_many <span class="symbol">:microposts</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">app/models/micropost.rb</div><div class="line">=============================</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Micropost</span> &lt; ApplicationRecord</span></div><div class="line">  belongs_to <span class="symbol">:user</span></div><div class="line">  validates <span class="symbol">:content</span>, <span class="symbol">length:</span> &#123; <span class="symbol">maximum:</span> <span class="number">140</span> &#125;</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
 <p><code>has_many</code>和<code>belongs_to</code>都是<a href="http://guides.rubyonrails.org/association_basics.html#the-has-and-belongs-to-many-association" target="_blank" rel="external">Rails关联</a>特性中的方法，关联能让模型之间的常规操作变得更简单。</p>
-<p>Rails 支持六种关联：<br><code>belongs_to
-has_one
-has_many
-has_many :through
-has_one :through
-has_and_belongs_to_many</code></p>
+<p>Rails 支持六种关联：<br>belongs_to, has_one, has_many, has_many :through, has_one :through, has_and_belongs_to_many`</p>
 <p>更多参考文档：<a href="http://guides.rubyonrails.org/association_basics.html#the-has-and-belongs-to-many-association" target="_blank" rel="external">http://guides.rubyonrails.org/association_basics.html#the-has-and-belongs-to-many-association</a></p>
 <ul>
 <li><h3 id="添加内容提交空白验证"><a href="#添加内容提交空白验证" class="headerlink" title="添加内容提交空白验证"></a>添加内容提交空白验证</h3></li>
