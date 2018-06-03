@@ -267,6 +267,227 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/Ruby on Rails学习手记（一）/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Armotrine">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Insight">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Insight" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/Ruby on Rails学习手记（一）/" itemprop="url">
+                  Ruby on Rails学习手记（一）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-03T00:00:00+08:00">
+                2018-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言：为什么是Ruby-on-Rails"><a href="#前言：为什么是Ruby-on-Rails" class="headerlink" title="前言：为什么是Ruby on Rails"></a>前言：为什么是Ruby on Rails</h1><hr>
+<p>2017年3月，任天堂的新掌机Nintendo Switch发售。我除了立刻下单买了一台主机之外，还迅速购买了nsprice.com的域名，试图做一个关于switch游戏的价格网站。那时候我在玩PS4，经常逛<a href="http://psnine.com/" target="_blank" rel="external">psnine</a>和<a href="http://www.metacritic.com/" target="_blank" rel="external">metacritic</a>，还妄想着等任天堂出了成就系统之后做一个任版的集讨论、闲聊、成就比较、攻略、询价于一体的综合游戏论坛。摩拳擦掌，我开始在知乎搜索开发网站用什么好，是用世界最好的语言PHP，还是稍微熟悉一些的Flask。</p>
+<p>然而，到了2018年4月，不单还没有决定是用python还是PHP，连域名也快要过期了。虽然有一部分原因在于塞尔达和马里奥奥德赛太过精彩，加上实在是不喜欢PHP，但归根到底还是因为自己的懒惰和拖延。于是，就快速选择了Rails这个可以快糙猛地做出原型的框架。就把Python留在科学计算和机器学习的时候再重温和进阶好了。</p>
+<p>这个笔记依赖于最新版的<a href="https://www.railstutorial.org/" target="_blank" rel="external">https://www.railstutorial.org/</a>，由于也听了一些JHU的Rails课程，所以只记录一些自己觉得重要和容易忘记的要点，以及一些编译中遇到的坑</p>
+<h1 id="第一章：从零基础到部署"><a href="#第一章：从零基础到部署" class="headerlink" title="第一章：从零基础到部署"></a>第一章：从零基础到部署</h1><hr>
+<h2 id="Cloud9"><a href="#Cloud9" class="headerlink" title="Cloud9"></a>Cloud9</h2><p><a href="https://aws.amazon.com/cloud9/pricing/?nc1=h_ls" target="_blank" rel="external">cloud9</a>是依托于AWS EC2实例的开发环境，致力于在服务器端运行和存储代码，免去开发者重复部署环境和更换变成地点的困扰。</p>
+<h2 id="Bundler"><a href="#Bundler" class="headerlink" title="Bundler"></a>Bundler</h2><p>Bundler是Rails管理 gems的工具，它通过根目录下的Gemfile文件来生命和控制gems的版本，以保证在运行Rails工程的时候可以找到所有的依赖库，以及确保使用正确版本的gems。</p>
+<p>在当与其他人共同开发同一个项目的时候，对方使用bundle install命令后，bundler 会找到Gemfile.lock文件并确保他们的安装环境中的gems和在你的环境中的gems的版本是一样的，这就避免了因版本升级导致的第三方库的依赖问题。</p>
+<p>参考资料：<a href="https://bundler.io/rationale.html" target="_blank" rel="external">https://bundler.io/rationale.html</a></p>
+<p>在编译中学习使用HTTParty的时候，第一次运行Bundler的时候我没有在Gemfile文件中声明所用的gem的名字，而是通过命令行安装，这就导致了在编译Rails工程的时候一直无法找到这个依赖库，快把网上的文档翻烂了才在Bundler的官方文档里查出原因。整个过程大概浪费了1个小时。</p>
+<h1 id="第二章：一个初级的玩具级APP"><a href="#第二章：一个初级的玩具级APP" class="headerlink" title="第二章：一个初级的玩具级APP"></a>第二章：一个初级的玩具级APP</h1><hr>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ul>
+<li>制作一个类似Twitter的微博客，包含用户信息和用户发出的推文</li>
+<li>建立数据模型</li>
+<li>初步了解Rails的开发流程和一些基本操作</li>
+</ul>
+<h2 id="建构建数据模型"><a href="#建构建数据模型" class="headerlink" title="建构建数据模型"></a>建构建数据模型</h2><p>为了达成目标，首先需要来构建所需组件的数据模型，对于用户来说，定义它所需要的信息分别是：用户ID（整数型），用户名称（字符串型），邮件地址（字符串型）。对于用户发出的推文，定义它所需要的信息是推文ID，文本内容和发出这条消息的用户的用户ID。</p>
+<h2 id="scaffold命令"><a href="#scaffold命令" class="headerlink" title="scaffold命令"></a>scaffold命令</h2><p>scaffold是Rails用来生成代码的工具之一，它可以快速的构建起MVC的架构，帮助实现Rails推崇的敏捷开发。</p>
+<p>在这里，我们使用<code>scaffold</code>命令简单快捷的实现了上一段落定义的用户数据模型，但值得注意的是</p>
+<p>这里<code>scaffold</code>构建的是<code>Model</code>，根据Rails的约定，因此定义的对象应该为单数形式</p>
+<blockquote>
+<p>Model用单数因为它表示一个对象如User， 数据库表用复数因为它存放的是对象的集合， Controller用复数因为它是对对象集合的操作.</p>
+</blockquote>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rails generate scaffold User <span class="symbol">name:</span>string <span class="symbol">email:</span>string、</div></pre></td></tr></table></figure>
+<p>值得注意的是，Rails所使用的SQLite中，会自动为每一条数据生成一个ID值作数据的为唯一识别，故一般不需要手动定义ID项。</p>
+<h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><p>migrate是Rails中管理数据库表单的命令，便于追踪数据库的修改和简化数据库的同步。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">λ rails <span class="symbol">db:</span>migrate</div><div class="line">== <span class="number">20180603103534</span> <span class="symbol">CreateUsers:</span> migrating ======================================</div><div class="line">-- create_table(<span class="symbol">:users</span>)</div><div class="line">-&gt; <span class="number">0</span>.<span class="number">0011</span>s</div><div class="line">== <span class="number">20180603103534</span> <span class="symbol">CreateUsers:</span> migrated (<span class="number">0</span>.<span class="number">0014</span>s) =============================</div></pre></td></tr></table></figure>
+<p>在Rails 5之前，上面这条指令通常用<code>rake db:migrate</code>替代</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">λ rake <span class="symbol">db:</span>migrate(to update the database with a data model)</div><div class="line">λ rake test (to run the automated test suite)</div></pre></td></tr></table></figure>
+<p>但由于有时会因为编译环境中安装的rake版本与Gemfile指定的不一样导致报错，因此第一条指令通常被写为</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#强制限定使用本项目Gemfile指定的rake执行命令</span></div><div class="line">bundle exec rake <span class="symbol">db:</span>migrate</div></pre></td></tr></table></figure>
+<p>然后使用host/users即可看到刚才生成的数据库表，还可以通过host/users/ID、host/users/new等路径编辑和查询表内信息。</p>
+<h2 id="Model-View-Controller-MVC"><a href="#Model-View-Controller-MVC" class="headerlink" title="Model-View-Controller (MVC)"></a>Model-View-Controller (MVC)</h2><p>Rails遵循MVC框架，它的设计理念是将数据、前端和后台控制分离，以保证整体应用的稳定运行。</p>
+<p>下面这张图就表示了用户在访问host/users时的数据流和信息流去向其中<code>index.html.erb</code>文件为包含ruby代码的前端文件。</p>
+<img src="/Ruby%20on%20Rails学习手记（一）/1_1_MCV.PNG" alt="MCV架构数据流向" title="MCV架构数据流向">
+<blockquote>
+<ol>
+<li>The browser issues a request for the /users URL.</li>
+<li><strong>Rails routes /users to the index action in the Users controller</strong>.</li>
+<li>The index action asks the User model to retrieve all users (User.all).</li>
+<li>The User model pulls all the users from the database.</li>
+<li>The User model returns the list of users to the controller.</li>
+<li>The controller captures the users in the @users variable, which is passed to the index view.</li>
+<li>The view uses embedded Ruby to render the page as HTML.</li>
+<li>The controller passes the HTML back to the browser.</li>
+</ol>
+</blockquote>
+<p>如果我们把<code>config/routes.rb</code>中的代码改成如下所示，则当我们在访问host的时候就会直接访问<code>users controller</code>的<code>index action。</code></p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Rails.application.routes.draw <span class="keyword">do</span></div><div class="line">  resources <span class="symbol">:users</span></div><div class="line">	root <span class="string">'users#index'</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<p><code>users控制器</code>所拥有的动作都定义在<code>users_controller.rb</code>文件中，这个文件是之前由<code>scaffold</code>方法生成的。我们阅读这些动作可以发现，动作的数量要多于我们看过得页面，因为其中有一些动作像<code>create</code>, <code>update</code>, <code>destroy</code>等不会直接渲染页面，而是用来直接修改数据库中的数据。</p>
+<p>下图中所列出的是<code>users控制器</code>的全部方法，而这些动作代表了Rails对REST架构的实现。</p>
+<p>值得注意的是，<code>update</code>和<code>show</code>两个方法都映射到了同一个url上，但他们的http请求方法不同。</p>
+<img src="/Ruby%20on%20Rails学习手记（一）/1_2_RESTful.PNG" alt="users controller的全部方法" title="users controller的全部方法">
+<h2 id="REpresentational-State-Transfer-REST"><a href="#REpresentational-State-Transfer-REST" class="headerlink" title="REpresentational State Transfer (REST)"></a>REpresentational State Transfer (REST)</h2><p>在Rails中，使用RESTful开发代表着大多数组件（例如本章要构建的用户信息和用户的推文）被模块化了，变成了资源（resources），也就意味着他们可以对应到数据库中的CURD方法和HTTP的请求方法。</p>
+<p>作为Rails开发者，RESTful的开发会帮助你决定要编辑和修改那些<code>controllers</code></p>
+<h2 id="为网站添加一些其他方法"><a href="#为网站添加一些其他方法" class="headerlink" title="为网站添加一些其他方法"></a>为网站添加一些其他方法</h2><ul>
+<li><h3 id="字符限制"><a href="#字符限制" class="headerlink" title="字符限制"></a>字符限制</h3></li>
+</ul>
+<p>首先，仿照生成users的方法，使用<code>scaffold</code>生成包含content和user_id的<code>micropost</code>资源</p>
+<p>在<code>app/models/micropost.rb</code>文件中加入如下代码，即表示在micropost的content加入了140字的验证，如果超过了这个限制则会报错。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Micropost</span> &lt; ApplicationRecord</span></div><div class="line">  validates <span class="symbol">:content</span>, <span class="symbol">length:</span> &#123; <span class="symbol">maximum:</span> <span class="number">140</span> &#125;</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<img src="/Ruby%20on%20Rails学习手记（一）/1_3_empty_error.PNG" alt="validates的报错" title="validates的报错">
+<p><strong>Model是用来封装业务逻辑的，要尽可能的把涉及业务逻辑的代码放到Model里。这样也方便不同的Controller调用同一个Model时的代码简洁性。</strong></p>
+<ul>
+<li><h3 id="统计用户的推文数量"><a href="#统计用户的推文数量" class="headerlink" title="统计用户的推文数量"></a>统计用户的推文数量</h3></li>
+</ul>
+<p>Rails的一个强大特性就是有关联不同数据<code>模型（Model）</code>的能力。现在通过添加下列代码，实现<code>user</code>和<code>micropost</code>的关联。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">app/models/user.rb</div><div class="line">=============================</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> &lt; ApplicationRecord </span></div><div class="line">	has_many <span class="symbol">:microposts</span></div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line">app/models/micropost.rb</div><div class="line">=============================</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Micropost</span> &lt; ApplicationRecord</span></div><div class="line">  belongs_to <span class="symbol">:user</span></div><div class="line">  validates <span class="symbol">:content</span>, <span class="symbol">length:</span> &#123; <span class="symbol">maximum:</span> <span class="number">140</span> &#125;</div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+<p><code>has_many</code>和<code>belongs_to</code>都是<a href="http://guides.rubyonrails.org/association_basics.html#the-has-and-belongs-to-many-association" target="_blank" rel="external">Rails关联</a>特性中的方法，关联能让模型之间的常规操作变得更简单。</p>
+<p>Rails 支持六种关联：<br><code>belongs_to
+has_one
+has_many
+has_many :through
+has_one :through
+has_and_belongs_to_many</code></p>
+<p>更多参考文档：<a href="http://guides.rubyonrails.org/association_basics.html#the-has-and-belongs-to-many-association" target="_blank" rel="external">http://guides.rubyonrails.org/association_basics.html#the-has-and-belongs-to-many-association</a></p>
+<ul>
+<li><h3 id="添加内容提交空白验证"><a href="#添加内容提交空白验证" class="headerlink" title="添加内容提交空白验证"></a>添加内容提交空白验证</h3></li>
+</ul>
+<pre><code><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">app/models/micropost.rb</div><div class="line">====================================</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Micropost</span> &lt; ApplicationRecord</span></div><div class="line"></div><div class="line">  belongs_to <span class="symbol">:user</span></div><div class="line">  validates <span class="symbol">:content</span>, <span class="symbol">length:</span> &#123; <span class="symbol">maximum:</span> <span class="number">140</span> &#125;,</div><div class="line">                      <span class="symbol">presence:</span> <span class="literal">true</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+</code></pre><p>在<code>app/models/micropost.rb</code>中添加<code>presence: true</code>的验证，如果遇到输入为空，网页会提示错误</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/What I'm Reading Today-20180524/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1420,7 +1641,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -1438,7 +1659,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
